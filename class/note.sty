@@ -1,0 +1,40 @@
+\usepackage{listingsutf8}       % For code snippets
+\usepackage{graphicx}           % To include images
+\usepackage[table]{xcolor}      % Color cells of a table
+\usepackage{amsmath}            % Equations
+\usepackage{amssymb}            % Symbols
+\usepackage{multirow}           % Custom tables
+\usepackage{array}              % Custom tables
+\usepackage[none]{hyphenat}     % No hyphenation
+
+\setlength{\parindent}{0pt}     % Deletes alineas (= no paragraph indentation)
+\lstdefinestyle{custom}{
+    frame=single,
+    breaklines=true,
+    breakatwhitespace=false,
+    basicstyle=\ttfamily,
+    inputencoding=utf8/latin1,
+    keywordstyle=\bfseries\color{violet!70!white},
+    commentstyle=\itshape\color{green!50!black},
+    basicstyle=\ttfamily\footnotesize,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=7pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\newcommand{\code}[4]{ % 1: path, 2: firstline, 3: lastline, 4: language
+    \lstset{style=custom, language=#4} % Java, Python, C, C++, etc.
+    \lstinputlisting[firstline=#2, lastline=#3]{#1}
+}
+\newcommand{\boxsize}{0.987\linewidth}
+\newcommand{\custombox}[1]{\begin{center}\fbox{\parbox{\boxsize}{#1}}\end{center}}
+\newcommand{\lb}{\vspace{11pt}\\} % Line break
+\newcommand{\doublebox}[5]{\begin{minipage}{#3\textwidth}{#1}\end{minipage}\begin{minipage}{#4\textwidth}{\(\)}\end{minipage}\begin{minipage}{#5\textwidth}{#2}\end{minipage}}
+\newcommand{\image}[1]{\includegraphics[width=\textwidth]{#1}}
