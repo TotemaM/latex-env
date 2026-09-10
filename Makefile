@@ -1,37 +1,44 @@
 OUTPUT	:= document
-MAIN	:= src/main.tex
-BUILD	:= build
+
+SRCD	:= src
+BLDD	:= build
+
+MAIN	:= $(SRCD)/main.tex
+
 LATEX	:= latexmk
 PDF		:= $(OUTPUT).pdf
 
 LATEXFLAGS	:= -pdf \
-            	-interaction=nonstopmode \
-            	-file-line-error \
-            	-synctex=1 \
-            	-outdir=$(BUILD)
+				-interaction=nonstopmode \
+				-file-line-error \
+				-synctex=1 \
+				-auxdir=$(BLDD) \
+				-outdir=$(BLDD)
 
-export TEXINPUTS := $(CURDIR)/tex/classes:$(CURDIR)/tex/packages:
+export TEXINPUTS := $(CURDIR)/src:$(CURDIR)/libs/classes:$(CURDIR)/libs/packages:
 
-.PHONY: all clean fclean re view help
+.PHONY: all $(PDF) build clean fclean re view help
 
 all: $(PDF)
 
-$(PDF): $(MAIN)
-	@ mkdir -p $(BUILD)
+build:
+	mkdir -p $@
+
+$(PDF): $(wildcard src/**/*.tex)
 	$(LATEX) $(LATEXFLAGS) -jobname=$(OUTPUT) $(MAIN)
-	@ cp $(BUILD)/$(PDF) $@
+	cp $(BLDD)/$(PDF) .
 
 clean:
-	@ rm -rf $(BUILD)
+	rm -rf $(BLDD)
 
 fclean: clean
-	@ rm -f $(PDF)
+	rm -f $(PDF)
 
 re: clean
 	$(MAKE) all
 
 view: $(PDF)
-	@xdg-open $(PDF) 2>/dev/null || open $(PDF) 2>/dev/null || \
+	@ xdg-open $(PDF) 2>/dev/null || open $(PDF) 2>/dev/null || \
 		echo "Open $(PDF) manually."
 
 help:
