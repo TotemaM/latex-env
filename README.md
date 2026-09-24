@@ -5,6 +5,8 @@ Makefile providing a environment to compile LaTeX documents to PDF.
 - `GNU Make`
 - `latexmk`
 
+By default using `xelatex` compiler.
+
 ## Structure
 ```
 ├── src				: .tex files

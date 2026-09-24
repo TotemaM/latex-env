@@ -8,14 +8,18 @@ MAIN	:= $(SRCD)/main.tex
 LATEX	:= latexmk
 PDF		:= $(OUTPUT).pdf
 
+SRCS	:= $(shell find $(SRCD) -type f -name "*.tex")
+SRCDIRS	:= $(sort $(dir $(patsubst $(SRCD)/%,%,$(SRCS))))
+
 LATEXFLAGS	:= -pdf \
+				-xelatex \
 				-interaction=nonstopmode \
 				-file-line-error \
 				-synctex=1 \
 				-auxdir=$(BLDD) \
 				-outdir=$(BLDD)
 
-export TEXINPUTS := $(CURDIR)/src:$(CURDIR)/libs/classes:$(CURDIR)/libs/packages:
+export TEXINPUTS := $(CURDIR)/src:$(CURDIR)/libs/classes:$(CURDIR)/libs/packages:$(CURDIR)/fonts:$(CURDIR)/img:
 
 .PHONY: all $(PDF) build clean fclean re view help
 
@@ -23,8 +27,9 @@ all: $(PDF)
 
 build:
 	mkdir -p $@
+	mkdir -p $(addprefix $@/,$(SRCDIRS))
 
-$(PDF): $(wildcard src/**/*.tex)
+$(PDF): $(SRCS) | build
 	$(LATEX) $(LATEXFLAGS) -jobname=$(OUTPUT) $(MAIN)
 	cp $(BLDD)/$(PDF) .
 
